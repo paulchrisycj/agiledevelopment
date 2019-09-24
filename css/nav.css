@@ -1,0 +1,107 @@
+body{
+  line-height: 1.5em;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+html{
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+
+
+.nav {
+  position: relative;
+  /*top:0;*/
+  /*left:0;*/
+  background: #212121;
+  width: 100%;
+  margin: 0  0  5px 0;
+  opacity: 0.85;
+}
+
+.nav ul{
+  margin: 0;
+  /*padding: 0;*/
+}
+
+.nav ul li {
+
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+.nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  display: block;
+  padding: 30px 35px;
+  font-family: 'Cocogoose', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  position: relative;
+}
+.nav ul li a:hover {
+  color: #909090;
+}
+.nav ul li a:hover:before {
+  width: 100%;
+}
+.nav ul li a:before {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 0;
+  background: #FF8A65;
+  position: relative;
+  transition: width .25s;
+  box-shadow: 2px 2px 1px black;
+}
+.nav ul li.last > a:after,
+.nav ul li:last-child > a:after {
+  display: none;
+}
+.nav ul li.active a {
+  color: #909090;
+}
+.nav ul li.active a:before {
+  width: 100%;
+}
+.break { 
+/*margin-top: 70px;*/
+ }
+
+
+#user {
+  color: #ffffff;
+  text-decoration: none;
+
+  padding: 30px 35px;
+  font-family: 'Cocogoose', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  position: relative;
+}
+
+/*Mobile css below*/
+@media only screen and (max-width: 750px) {
+
+
+  .nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    font-family: 'Cocogoose', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    position: relative;
+  }
+
+}
