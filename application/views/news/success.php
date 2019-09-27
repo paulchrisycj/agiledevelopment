@@ -1,1 +1,0 @@
-<h1>Successfully inserted into Database!</h1>
