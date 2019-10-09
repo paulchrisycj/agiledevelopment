@@ -51,6 +51,7 @@
                                 echo "<td>" . $row['venue_name'] . "</td>";
                                 echo "<td>" . $row['venue_capacity'] . "</td>";
                                 echo "<td>" . $row['venue_location'] . "</td>";
+                                echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editVenue' value='" . $row['venue_entry_id'] . "' id='" . $row['venue_entry_id'] . "'</button>Edit</td>";
 //                                echo "<td style='font-size: 12px'>" . substr($row['venue_updated_at'], 0, 10) . "</td>";
 //                                echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editVenue' value='" . $row['venue_entry_id'] . "' id='" . $row['venue_entry_id'] . "'>Edit</button></td>";
                                 echo "</tr>";
