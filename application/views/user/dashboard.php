@@ -16,7 +16,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5 col-sm-offset-5 col-xs-offset-5">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addDrum">Add Drum</button>
+                            <!--                            <button class="btn btn-primary" data-toggle="modal" data-target="#addDrum">Add Drum</button>-->
                         </div>
                     </div>
                 </div>
@@ -27,18 +27,7 @@
                            aria-describedby="datatable_info" style="width : 100%">
                         <thead>
                         <tr>
-                            <th>Entry ID</th>
-                            <th>Drum ID</th>
-                            <th>Type</th>
-                            <th>Size</th>
-                            <th>Core</th>
-                            <th>Colour</th>
-                            <th>Remaining Length</th>
-                            <th>Special</th>
-                            <th>Status</th>
-                            <th>Registered At</th>
-                            <th>Updated At</th>
-                            <th>Edit</th>
+                            <th>Dashboard COLUMN</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -50,44 +39,33 @@
                         //echo __DIR__ ;
 
 
-                        $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=showAllDrums" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=showAllDrums";
-
-                        //                echo "Path called : " . $path;
-
-                        $response = file_get_contents($path);
-                        $response = json_decode($response, true);
-                        foreach ($response['results'] as $row) {
-                            echo "<tr>";
-                            echo "<td>" . $row['drum_entry_id'] . "</td>";
-                            echo "<td>" . $row['drum_id'] . "</td>";
-                            echo "<td>" . $row['drum_type'] . "</td>";
-                            echo "<td>" . $row['drum_diameter'] . "</td>";
-                            echo "<td>" . $row['drum_core'] . "</td>";
-                            echo "<td>" . $row['drum_colour'] . "</td>";
-                            echo "<td>" . $row['total_left'] . "</td>";
-                            echo "<td>" . $row['drum_special'] . "</td>";
-                            echo "<td>" . $row['drum_status'] . "</td>";
-                            echo "<td>" . $row['drum_registered_at'] . "</td>";
-                            echo "<td style='font-size: 12px'>" . substr($row['drum_updated_at'], 0, 10) . "</td>";
-                            echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editDrum' value='" . $row['drum_entry_id'] . "' id='" . $row['drum_entry_id'] . "'>Edit</button></td>";
-                            echo "</tr>";
-                        }
+                        //                        $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=showAllDrums" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=showAllDrums";
+                        //
+                        //                        //                echo "Path called : " . $path;
+                        //
+                        //                        $response = file_get_contents($path);
+                        //                        $response = json_decode($response, true);
+                        //                        foreach ($response['results'] as $row) {
+                        //                            echo "<tr>";
+                        //                            echo "<td>" . $row['drum_entry_id'] . "</td>";
+                        //                            echo "<td>" . $row['drum_id'] . "</td>";
+                        //                            echo "<td>" . $row['drum_type'] . "</td>";
+                        //                            echo "<td>" . $row['drum_diameter'] . "</td>";
+                        //                            echo "<td>" . $row['drum_core'] . "</td>";
+                        //                            echo "<td>" . $row['drum_colour'] . "</td>";
+                        //                            echo "<td>" . $row['total_left'] . "</td>";
+                        //                            echo "<td>" . $row['drum_special'] . "</td>";
+                        //                            echo "<td>" . $row['drum_status'] . "</td>";
+                        //                            echo "<td>" . $row['drum_registered_at'] . "</td>";
+                        //                            echo "<td style='font-size: 12px'>" . substr($row['drum_updated_at'], 0, 10) . "</td>";
+                        //                            echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editDrum' value='" . $row['drum_entry_id'] . "' id='" . $row['drum_entry_id'] . "'>Edit</button></td>";
+                        //                            echo "</tr>";
+                        //                        }
                         ?>
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>Entry ID</th>
-                            <th>Drum ID</th>
-                            <th>Type</th>
-                            <th>Size</th>
-                            <th>Core</th>
-                            <th>Colour</th>
-                            <th>Remaining Length</th>
-                            <th>Special</th>
-                            <th>Status</th>
-                            <th>Registered At</th>
-                            <th>Updated At</th>
-                            <th>Edit</th>
+                            <th>Dashboard COLUMN</th>
                         </tr>
                         </tfoot>
                         </thead>
@@ -591,7 +569,7 @@
     };
 
     $(document).ready(function () {
-        $('#drum').DataTable({
+        $('#dashboard').DataTable({
             scrollX: true,
             order: [[10, "asc"]],
             columnDefs: [
