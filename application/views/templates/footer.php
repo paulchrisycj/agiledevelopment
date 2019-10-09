@@ -1,21 +1,20 @@
 <!-- footer content -->
-<footer>
-    <div class="pull-right">
-        Kheng Seng Letrik (M) Sdn. Bhd All Right Reserved
-        <!--        KSLETRIC<a href=""></a>-->
-    </div>
-    <div class="clearfix"></div>
-</footer>
+<!--<footer>-->
+<!--    <div class="pull-right">-->
+<!--        <!--        KSLETRIC<a href=""></a>-->-->
+<!--    </div>-->
+<!--    <div class="clearfix"></div>-->
+<!--</footer>-->
 <!-- /footer content -->
 </div>
 </div>
 
-<div id="custom_notifications" class="custom-notifications dsp_none">
-    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
-    </ul>
-    <div class="clearfix"></div>
-    <div id="notif-group" class="tabbed_notifications"></div>
-</div>
+<!--<div id="custom_notifications" class="custom-notifications dsp_none">-->
+<!--    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">-->
+<!--    </ul>-->
+<!--    <div class="clearfix"></div>-->
+<!--    <div id="notif-group" class="tabbed_notifications"></div>-->
+<!--</div>-->
 
 <script src="<?php echo base_url(); ?>js/bootstrap.min.js"></script>
 
