@@ -97,10 +97,10 @@ switch ($route) {
         $retval = json_decode($retval, true);
         if($retval['RowCount'] == 1){
             $_SESSION['admin_id'] = $retval['results'][0]['admin_id'];
-            header('Location: http://localhost/Codeigniter/index.php/admin/dashboard');
+            header('Location: http://localhost/agiledevelopment/index.php/admin/dashboard');
         }else{
             session_destroy();
-            header('Location: http://localhost/Codeigniter/index.php/admin/dashboard');
+            header('Location: http://localhost/agiledevelopment/index.php/admin/dashboard');
         }
         break;
 
@@ -116,9 +116,9 @@ switch ($route) {
         $retval = json_decode($retval, true);
         if($retval['RowCount'] == 1){
             $_SESSION['user_id'] = $retval['results'][0]['user_id'];
-            header('Location: http://localhost/Codeigniter/index.php/user/dashboard');
+            header('Location: http://localhost/agiledevelopment/index.php/user/dashboard');
         }else{
-            header('Location: http://localhost/Codeigniter/index.php/user/dashboard');
+            header('Location: http://localhost/agiledevelopment/index.php/user/dashboard');
         }
         break;
 
@@ -169,6 +169,17 @@ switch ($route) {
         $rs = new JSONRecordSet();
         $retval = $rs->getRecordSet($sqlSearch, null,
             array(
+            )
+        );
+        echo $retval;
+        break;
+
+    case 'showOneVenueByID':
+        $sqlSearch = "SELECT * FROM venue WHERE venue_id=:venue_id";
+        $rs = new JSONRecordSet();
+        $retval = $rs->getRecordSet($sqlSearch, null,
+            array(
+                ':venue_id'=>$venue_id
             )
         );
         echo $retval;
