@@ -35,7 +35,7 @@
                                placeholder="Password">
                     </div>
                     <span class="button-checkbox">
-					<button type="button" class="btn" data-color="info"><a href="<?php echo base_url(); ?>index.php/login_admin"
+					<button type="button" class="btn" data-color="info"><a href="<?php echo base_url(); ?>index.php/login/login_admin"
                                                                            class="btn btn-link pull-right">Admin</a></button>
 
 

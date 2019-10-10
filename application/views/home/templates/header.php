@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div id = "container">
         <nav class="navbar navbar-expand-sm navbar-dark fixed-top" style="background-color: black;">
         
-            <a class="navbar-brand" href="http://localhost/VRS/index.php/homepage">
+            <a class="navbar-brand" href="http://localhost/agiledevelopment/index.php/home">
             Home
             </a>
 
@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </li>
 
                     <li class="nav-item" style="font-size: 20px; font-weight: bolder;">
-                        <a class="nav-link" href="http://localhost/VRS/index.php/login">
+                        <a class="nav-link" href="http://localhost/agiledevelopment/index.php/login">
                             Login
                         </a>
                     </li>
