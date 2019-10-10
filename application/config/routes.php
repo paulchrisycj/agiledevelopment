@@ -56,8 +56,8 @@ $route['admin/(:any)'] = 'admin/view/$1';
 $route['admin/'] = 'admin/view';
 $route['login/(:any)'] = 'login/view/$1';
 $route['login'] = 'login/view';
-//$route['(:any)'] = 'login/view/$1';
-//$route['default_controller'] = 'login/view';
+$route['(:any)'] = 'home/view/$1';
+$route['default_controller'] = 'home/view';
 //$route['(:any)'] = 'login/view/$1';
 //$route['default_controller'] = 'login/view';
 

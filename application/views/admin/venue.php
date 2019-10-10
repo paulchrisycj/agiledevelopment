@@ -31,6 +31,7 @@
                             <th>Venue Name</th>
                             <th>Venue Capacity</th>
                             <th>Venue Location</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -41,7 +42,7 @@
 //                        echo dirname($_SERVER['SERVER_NAME']);
 //                        echo __DIR__ ;
 
-                            $path = "http://localhost/agiledevTemplate/includes/server/index.php?action=showAllVenue";
+                            $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
                             //                echo "Path called : " . $path;
                             $response = file_get_contents($path);
                             $response = json_decode($response, true);
@@ -51,7 +52,7 @@
                                 echo "<td>" . $row['venue_name'] . "</td>";
                                 echo "<td>" . $row['venue_capacity'] . "</td>";
                                 echo "<td>" . $row['venue_location'] . "</td>";
-                                echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editVenue' value='" . $row['venue_entry_id'] . "' id='" . $row['venue_entry_id'] . "'</button>Edit</td>";
+                                echo "<td><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editVenue' value='" . $row['venue_id'] . "' id='" . $row['venue_id'] . "'</button>Edit</td>";
 //                                echo "<td style='font-size: 12px'>" . substr($row['venue_updated_at'], 0, 10) . "</td>";
 //                                echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editVenue' value='" . $row['venue_entry_id'] . "' id='" . $row['venue_entry_id'] . "'>Edit</button></td>";
                                 echo "</tr>";
@@ -64,7 +65,8 @@
                             <th>Venue Name</th>
                             <th>Venue Capacity</th>
                             <th>Venue Location</th>
-                        </tr>
+							<th>Action</th>
+						</tr>
                         </tfoot>
                         </thead>
                     </table>
@@ -150,136 +152,8 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="venueForm">
                     <fieldset>
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="edit_entry_id">Entry ID</label>
-                            <div class="col-md-9">
-                                <input id="edit_entry_id" name="edit_entry_id" type="text" placeholder="#######"
-                                       disabled='true' class="form-control input-md" required="true">
-                            </div>
-                        </div>
 
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="venueID">Venue ID</label>
-                            <div class="col-md-9">
-                                <input id="edit_venue_name" name="edit_venue_name" type="text" placeholder="#######"
-                                       class="form-control input-md" required="true">
-                            </div>
-                        </div>
-
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="type">Type</label>
-                            <div class="col-md-9">
-                                <select id="edit_venue_type" name="edit_venue_type" style="width: 100%;">
-                                    <?php
-                                    $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=option_venue_type" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=option_venue_type";
-                                    echo file_get_contents($path);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="diameter">Size</label>
-                            <div class="col-md-9">
-                                <select name="edit_venue_diameter" id="edit_venue_diameter" style="width: 100%;">
-                                    <?php
-                                    $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=option_venue_diameter" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=option_venue_diameter";
-                                    echo file_get_contents($path);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="core">No. of cores</label>
-                            <div class="col-md-9">
-                                <select id="edit_venue_core" name="edit_venue_core" style="width: 100%;">
-                                    <?php
-                                    $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=option_venue_core" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=option_venue_core";
-                                    echo file_get_contents($path);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Select Basic -->
-                        <div hidden class="form-group">
-                            <label class="col-md-3 control-label" for="flex">No. of flexes</label>
-                            <div class="col-md-9">
-                                <select id="edit_venue_flex" name="edit_venue_flex" class="form-control">
-                                    <option></option>
-                                    <option value='2'>2c</option>
-                                    <option value='3'>3c</option>
-                                    <option value='4'>4c</option>
-                                    <option value='5'>5c</option>
-                                    <option value='6'>6c</option>
-                                    <option value='7'>7c</option>
-                                    <option value='8'>8c</option>
-                                    <option value='9'>9c</option>
-                                    <option value='10'>10c</option>
-                                    <option value='12'>12c</option>
-                                    <option value='18'>18c</option>
-                                    <option value='21'>21c</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="colour">Colour</label>
-                            <div class="col-md-9">
-                                <select id="edit_venue_colour" name="edit_venue_colour" style="width: 100%">
-                                    <?php
-                                    $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=option_venue_colour" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=option_venue_colour";
-                                    echo file_get_contents($path);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="special">Special</label>
-                            <div class="col-md-9">
-                                <input id="edit_venue_special" name="edit_venue_special" type="text" placeholder="Special"
-                                       class="form-control input-md">
-                                <span class="help-block">help</span>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="edit_venue_length">Available Length</label>
-                            <div class="col-md-9">
-                                <input id="edit_venue_length" name="edit_venue_length" type="number"
-                                       placeholder="length(Meter)"
-                                       class="form-control input-md" required="">
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="status">Status</label>
-                            <div class="col-md-9">
-                                <input id="edit_venue_status" name="edit_venue_status" type="text" placeholder="Status"
-                                       class="form-control input-md" required="">
-                            </div>
-                        </div>
-
-                        <!-- Button -->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="submit"></label>
-                            <div class="col-md-9">
-                                <button id="edit_submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
-
-                    </fieldset>
+					</fieldset>
                 </form>
             </div>
         </div>
@@ -296,36 +170,6 @@
     $(document).ready(function () {
         $('.editButton').click(function () {
             console.log($(this));
-            $.ajax({
-
-                url: "<?php echo $path;?>/includes/server/KSLectricMalaysia.php",
-
-                data: {
-                    'action': "showOneVenueByID",
-                    'id': $(this).val()
-                },
-
-                error: function (xhr, status, error) {
-                    alert(xhr.responseText);
-                },
-
-                success: function (data) {
-                    console.log(data['results'][0]['venue_entry_id']);
-                    $('#edit_entry_id').val(data['results'][0]['venue_entry_id']);
-                    $('#edit_venue_name').val(data['results'][0]['venue_name']).trigger('change.select2');
-                    $('#edit_venue_type').val(data['results'][0]['venue_type']).trigger('change.select2');
-                    $('#edit_venue_core').val(data['results'][0]['venue_core']).trigger('change.select2');
-                    $('#edit_venue_flex').val(data['results'][0]['venue_flex']);
-                    $('#edit_venue_colour').val(data['results'][0]['venue_colour']).trigger('change.select2');
-                    $('#edit_venue_special').val(data['results'][0]['venue_special']);
-                    $('#edit_venue_status').val(data['results'][0]['venue_status']);
-                    $('#edit_venue_length').val(data['results'][0]['venue_length']);
-                    $('#edit_venue_diameter').val(data['results'][0]['venue_diameter']).trigger('change.select2');
-
-                },
-
-                type: 'POST'
-            })
         });
 
         $('#edit_submit').click(function (e) {
@@ -470,12 +314,12 @@
         $('#venue').DataTable({
             scrollX: true,
             order: [[10, "asc"]],
-            columnDefs: [
-                {
-                    "targets": [0],
-                    "visible": false
-                }
-            ],
+            // columnDefs: [
+            //     {
+            //         "targets": [0],
+            //         "visible": false
+            //     }
+            // ],
             fixedColumns: {
                 leftColumns: 1
             },
