@@ -150,8 +150,48 @@
 
             <!-- Modal Body-->
             <div class="modal-body">
-                <form class="form-horizontal" id="venueForm">
+                <form class="form-horizontal" id="EditVenueForm">
                     <fieldset>
+						<div class="form-group">
+							<label class="col-md-3 control-label">Venue ID</label>
+							<div class="col-md-9">
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="edit_venue_name">Venue Name</label>
+							<div class="col-md-9">
+								<input id="edit_venue_name" name="edit_venue_name" type="text" placeholder=""
+									   class="form-control input-md" required="true">
+							</div>
+						</div>
+
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="edit_venue_capacity">Venue Capacity</label>
+							<div class="col-md-9">
+								<input id="edit_venue_capacity" name="edit_venue_capacity" type="number" placeholder=""
+									   class="form-control input-md" required="true">
+							</div>
+						</div>
+
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="edit_venue_location">Venue Location</label>
+							<div class="col-md-9">
+								<input id="edit_venue_location" name="edit_venue_location" type="text" placeholder=""
+									   class="form-control input-md" required="true">
+							</div>
+						</div>
+
+						<!-- Button -->
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="submit"></label>
+							<div class="col-md-4">
+								<button id="add_submit" name="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
 
 					</fieldset>
                 </form>
