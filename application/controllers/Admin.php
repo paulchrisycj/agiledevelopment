@@ -3,6 +3,7 @@ Class Admin extends CI_Controller{
     public function view($page = 'dashboard'){
         if(! file_exists(APPPATH . 'views/admin/' . $page . '.php')){
             show_404();
+            echo APPPATH . 'views/admin/' . $page . '.php';
         }
         $data['title'] = ucfirst($page);
         $this->load->helper('url');
