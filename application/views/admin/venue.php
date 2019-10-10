@@ -155,7 +155,8 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Venue ID</label>
 							<div class="col-md-9">
-
+                                <input id="edit_venue_id" name="edit_venue_id" type="text" placeholder=""
+                                       disabled="true" class="form-control input-md" required="true">
 							</div>
 						</div>
 
@@ -210,25 +211,38 @@
     $(document).ready(function () {
         $('.editButton').click(function () {
             console.log($(this));
+            $.ajax({
+                url: "<?php echo base_url(); ?>/includes/server/index.php",
+
+                data: {
+                    'action': 'showOneVenueByID',
+                    'venue_id': $(this).val()
+                },
+
+                error: function(xhr, status, error){
+                    alert(xhr.responseText);
+                },
+
+                success: function(data){
+                    $('#edit_venue_id').val(data['results'][0]['venue_id']);
+                    $('#edit_venue_name').val(data['results'][0]['venue_name']);
+                    $('#edit_venue_capacity').val(data['results'][0]['venue_capacity']);
+                    $('#edit_venue_location').val(data['results'][0]['venue_location']);
+                    console.log(data);
+                },
+
+                type: 'POST'
+            })
         });
 
         $('#edit_submit').click(function (e) {
             e.preventDefault();
             $.ajax({
 
-                url: '<?php echo $path?>/includes/server/KSLectricMalaysia.php',
+                url: '',
 
                 data: {
-                    'action': "updateVenue",
-                    'id': $('#edit_entry_id').val(),
-                    'venue_name': $('#edit_venue_name').val(),
-                    'venue_type': $('#edit_venue_type').val(),
-                    'venue_core': $('#edit_venue_core').val(),
-                    'venue_colour': $('#edit_venue_colour').val(),
-                    'venue_special': $('#edit_venue_special').val(),
-                    'venue_status': $('#edit_venue_status').val(),
-                    'venue_available_length': $('#edit_venue_length').val(),
-                    'venue_diameter': $('#edit_venue_diameter').val()
+                    'action': "updateVenue"
                 },
 
                 error: function (xhr, status, error) {
