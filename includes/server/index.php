@@ -185,6 +185,17 @@ switch ($route) {
         echo $retval;
         break;
 
+	case 'showOneSlotByID':
+		$sqlSearch = "SELECT * FROM slots WHERE slot_id=:slot_id";
+		$rs = new JSONRecordSet();
+		$retval = $rs->getRecordSet($sqlSearch, null,
+			array(
+				':slot_id'=>$slot_id
+			)
+		);
+		echo $retval;
+		break;
+
         //ADD
     case 'addBooking':
         $sqlInsert="INSERT INTO `agiledev`.`booking` 
