@@ -33,6 +33,7 @@
                             <th>Slot Date</th>
                             <th>Slot Start Time</th>
                             <th>Slot End Time</th>
+							<th>Action </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -55,6 +56,7 @@
                             echo "<td>" . $row['slot_date'] . "</td>";
                             echo "<td>" . $row['slot_start_time'] . "</td>";
                             echo "<td>" . $row['slot_end_time'] . "</td>";
+							echo "<td><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editSlot' value='" . $row['venue_id'] . "' id='" . $row['venue_id'] . "'</button>Edit</td>";
 //                                echo "<td style='font-size: 12px'>" . substr($row['slot_updated_at'], 0, 10) . "</td>";
 //                                echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editSlot' value='" . $row['slot_entry_id'] . "' id='" . $row['slot_entry_id'] . "'>Edit</button></td>";
                             echo "</tr>";
@@ -69,6 +71,7 @@
                             <th>Slot Date</th>
                             <th>Slot Start Time</th>
                             <th>Slot End Time</th>
+							<th>Action </th>
                         </tr>
                         </tfoot>
                         </thead>
@@ -175,124 +178,56 @@
                     <fieldset>
                         <!-- Text input-->
                         <div class="form-group">
-                            <label class="col-md-3 control-label" for="edit_entry_id">Entry ID</label>
-                            <div class="col-md-9">
-                                <input id="edit_entry_id" name="edit_entry_id" type="text" placeholder="#######"
-                                       disabled='true' class="form-control input-md" required="true">
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
                             <label class="col-md-3 control-label" for="slotID">Slot ID</label>
                             <div class="col-md-9">
-                                <input id="edit_slot_name" name="edit_slot_name" type="text" placeholder="#######"
+                                <input id="edit_slot_id" name="edit_slot_id" type="text" placeholder="#######"
                                        class="form-control input-md" required="true">
                             </div>
                         </div>
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="edit_slot_venue">Slot Venue</label>
+							<div class="col-md-9">
+								<select id="edit_slot_venue" name="edit_slot_venue" class="form-control" style="width: 100%;">
+									<?php
+									$path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
+									$result = file_get_contents($path);
+									$result = json_decode($result, true);
+									foreach($result['results'] as $row){
+										echo "<option value='" . $row['venue_id'] . "'>Name: " . $row['venue_name'] . " - Capacity: " . $row['venue_capacity'] . "</option>";
+									}
+									?>
+								</select>
+							</div>
+						</div>
 
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="type">Type</label>
-                            <div class="col-md-9">
-                                <select id="edit_slot_type" name="edit_slot_type" style="width: 100%;">
-                                    <?php
-                                    $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=option_slot_type" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=option_slot_type";
-                                    echo file_get_contents($path);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="edit_slot_date">Slot Date</label>
+							<div class="col-md-9">
+								<input id="edit_slot_date" name="edit_slot_date" type="date" placeholder=""
+									   class="form-control input-md" required="true">
+							</div>
+						</div>
 
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="diameter">Size</label>
-                            <div class="col-md-9">
-                                <select name="edit_slot_diameter" id="edit_slot_diameter" style="width: 100%;">
-                                    <?php
-                                    $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=option_slot_diameter" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=option_slot_diameter";
-                                    echo file_get_contents($path);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="edit_slot_start_time">Slot Start Time</label>
+							<div class="col-md-9">
+								<input id="edit_slot_start_time" name="edit_slot_start_time" type="time" placeholder=""
+									   class="form-control input-md" required="true">
+							</div>
+						</div>
 
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="core">No. of cores</label>
-                            <div class="col-md-9">
-                                <select id="edit_slot_core" name="edit_slot_core" style="width: 100%;">
-                                    <?php
-                                    $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=option_slot_core" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=option_slot_core";
-                                    echo file_get_contents($path);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
+						<!-- Text input-->
+						<div class="form-group">
+							<label class="col-md-3 control-label" for="edit_slot_end_time">Slot End Time</label>
+							<div class="col-md-9">
+								<input id="edit_slot_end_time" name="edit_slot_end_time" type="time" placeholder=""
+									   class="form-control input-md" required="true">
+							</div>
+						</div>
 
-                        <!-- Select Basic -->
-                        <div hidden class="form-group">
-                            <label class="col-md-3 control-label" for="flex">No. of flexes</label>
-                            <div class="col-md-9">
-                                <select id="edit_slot_flex" name="edit_slot_flex" class="form-control">
-                                    <option></option>
-                                    <option value='2'>2c</option>
-                                    <option value='3'>3c</option>
-                                    <option value='4'>4c</option>
-                                    <option value='5'>5c</option>
-                                    <option value='6'>6c</option>
-                                    <option value='7'>7c</option>
-                                    <option value='8'>8c</option>
-                                    <option value='9'>9c</option>
-                                    <option value='10'>10c</option>
-                                    <option value='12'>12c</option>
-                                    <option value='18'>18c</option>
-                                    <option value='21'>21c</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Select Basic -->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="colour">Colour</label>
-                            <div class="col-md-9">
-                                <select id="edit_slot_colour" name="edit_slot_colour" style="width: 100%">
-                                    <?php
-                                    $path = ($_SERVER['SERVER_NAME'] == "localhost") ? "http://localhost/KSLetricMalaysia/includes/server/KSLectricMalaysia.php?action=option_slot_colour" : "http://" . $_SERVER['SERVER_NAME'] . "/includes/server/KSLectricMalaysia.php?action=option_slot_colour";
-                                    echo file_get_contents($path);
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="special">Special</label>
-                            <div class="col-md-9">
-                                <input id="edit_slot_special" name="edit_slot_special" type="text" placeholder="Special"
-                                       class="form-control input-md">
-                                <span class="help-block">help</span>
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="edit_slot_length">Available Length</label>
-                            <div class="col-md-9">
-                                <input id="edit_slot_length" name="edit_slot_length" type="number"
-                                       placeholder="length(Meter)"
-                                       class="form-control input-md" required="">
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="status">Status</label>
-                            <div class="col-md-9">
-                                <input id="edit_slot_status" name="edit_slot_status" type="text" placeholder="Status"
-                                       class="form-control input-md" required="">
-                            </div>
-                        </div>
 
                         <!-- Button -->
                         <div class="form-group">
@@ -320,31 +255,24 @@
         $('.editButton').click(function () {
             console.log($(this));
             $.ajax({
-
-                url: "<?php echo $path;?>/includes/server/KSLectricMalaysia.php",
+                url: "<?php echo base_url(); ?>/includes/server/index.php",
 
                 data: {
-                    'action': "showOneSlotByID",
-                    'id': $(this).val()
+                    'action': 'showOneSlotByID',
+                    'slot_id': $(this).val()
                 },
 
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error){
                     alert(xhr.responseText);
                 },
 
-                success: function (data) {
-                    console.log(data['results'][0]['slot_entry_id']);
-                    $('#edit_entry_id').val(data['results'][0]['slot_entry_id']);
-                    $('#edit_slot_name').val(data['results'][0]['slot_name']).trigger('change.select2');
-                    $('#edit_slot_type').val(data['results'][0]['slot_type']).trigger('change.select2');
-                    $('#edit_slot_core').val(data['results'][0]['slot_core']).trigger('change.select2');
-                    $('#edit_slot_flex').val(data['results'][0]['slot_flex']);
-                    $('#edit_slot_colour').val(data['results'][0]['slot_colour']).trigger('change.select2');
-                    $('#edit_slot_special').val(data['results'][0]['slot_special']);
-                    $('#edit_slot_status').val(data['results'][0]['slot_status']);
-                    $('#edit_slot_length').val(data['results'][0]['slot_length']);
-                    $('#edit_slot_diameter').val(data['results'][0]['slot_diameter']).trigger('change.select2');
-
+                success: function(data){
+                    $('#edit_slot_id').val(data['results'][0]['slot_id']);
+                    $('#edit_slot_venue').val(data['results'][0]['venue_id']).trigger('change.select2');
+                    $('#edit_slot_date').val(data['results'][0]['slot_date']);
+                    $('#edit_slot_start_time').val(data['results'][0]['slot_start_time']);
+                    $('#edit_slot_end_time').val(data['results'][0]['slot_end_time']);
+                    console.log(data);
                 },
 
                 type: 'POST'
