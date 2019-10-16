@@ -11,6 +11,7 @@ class Home extends CI_Controller
 
         $data['title'] = "VRS - HOME";
 
+		$this->load->helper('url');
 		$this->load->view('home/home');
 	}
 }

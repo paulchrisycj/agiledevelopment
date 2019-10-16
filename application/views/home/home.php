@@ -202,7 +202,14 @@
 			</button>
 
 		</div>
+
+
 		<div class="collapse navbar-collapse" id="myNavbar">
+
+			<ul class="nav navbar-nav navbar-left">
+				<li><a href="<?php echo base_url() . "index.php/login"; ?>">LOGIN</a></li>
+			</ul>
+
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#home">HOME</a></li>
 				<li><a href="#about">ABOUT US</a></li>
