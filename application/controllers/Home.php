@@ -11,9 +11,7 @@ class Home extends CI_Controller
 
         $data['title'] = "VRS - HOME";
 
-        $this->load->view('home/templates/header', $data);
 		$this->load->view('home/home');
-		$this->load->view('home/templates/footer');
 	}
 }
 ?>
