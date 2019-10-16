@@ -181,7 +181,7 @@
                             <label class="col-md-3 control-label" for="slotID">Slot ID</label>
                             <div class="col-md-9">
                                 <input id="edit_slot_id" name="edit_slot_id" type="text" placeholder="#######"
-                                       class="form-control input-md" required="true">
+                                      disabled="true" class="form-control input-md" required="true">
                             </div>
                         </div>
 						<!-- Text input-->

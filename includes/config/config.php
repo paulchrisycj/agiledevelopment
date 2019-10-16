@@ -19,7 +19,7 @@ if ($_SERVER['SERVER_NAME']=="localhost"){
 
     define('dbName', 'agiledev');
     define('userName', 'root');
-    define('passWord', '');
+    define('passWord', 'root');
     define('dsn','mysql:host=127.0.0.1;dbname=agiledev');
     
     
