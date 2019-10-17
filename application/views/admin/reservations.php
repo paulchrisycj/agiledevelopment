@@ -11,12 +11,12 @@
                 <!--<div class="x_panel">-->
                 <div class="page-title">
                     <div class="title_left">
-                        <h1>Slots</h1>
+                        <h1>Reservations</h1>
                         <br>
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5 col-sm-offset-5 col-xs-offset-5">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addSlot">Add Slot</button>
+<!--                            <button class="btn btn-primary" data-toggle="modal" data-target="#addSlot">Add Slot</button>-->
                         </div>
                     </div>
                 </div>
@@ -27,13 +27,12 @@
                            aria-describedby="datatable_info" style="width : 100%">
                         <thead>
                         <tr>
-                            <th>Slot ID</th>
-                            <th>Venue ID</th>
                             <th>Venue Name</th>
                             <th>Slot Date</th>
                             <th>Slot Start Time</th>
                             <th>Slot End Time</th>
-							<th>Action </th>
+                            <th>Reserved By</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -44,19 +43,18 @@
                         //                        echo dirname($_SERVER['SERVER_NAME']);
                         //                        echo __DIR__ ;
 
-                        $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllSlots";
+                        $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllReserved";
                         //                echo "Path called : " . $path;
                         $response = file_get_contents($path);
                         $response = json_decode($response, true);
                         foreach ($response['results'] as $row) {
                             echo "<tr>";
-                            echo "<td>" . $row['slot_id'] . "</td>";
-                            echo "<td>" . $row['venue_id'] . "</td>";
                             echo "<td>" . $row['venue_name'] . "</td>";
                             echo "<td>" . $row['slot_date'] . "</td>";
                             echo "<td>" . $row['slot_start_time'] . "</td>";
                             echo "<td>" . $row['slot_end_time'] . "</td>";
-							echo "<td><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editSlot' value='" . $row['venue_id'] . "' id='" . $row['venue_id'] . "'</button>Edit</td>";
+                            echo "<td>" . $row['user_name'] . "</td>";
+                            echo "<td><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editSlot' value='" . $row['venue_id'] . "' id='" . $row['venue_id'] . "'</button>Edit</td>";
 //                                echo "<td style='font-size: 12px'>" . substr($row['slot_updated_at'], 0, 10) . "</td>";
 //                                echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editSlot' value='" . $row['slot_entry_id'] . "' id='" . $row['slot_entry_id'] . "'>Edit</button></td>";
                             echo "</tr>";
@@ -65,13 +63,12 @@
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>Slot ID</th>
-                            <th>Venue ID</th>
                             <th>Venue Name</th>
                             <th>Slot Date</th>
                             <th>Slot Start Time</th>
                             <th>Slot End Time</th>
-							<th>Action </th>
+                            <th>Reserved By</th>
+                            <th>Action</th>
                         </tr>
                         </tfoot>
                         </thead>
@@ -105,12 +102,12 @@
                             <div class="col-md-9">
                                 <select id="slot_venue" name="slot_venue" class="form-control" style="width: 100%;">
                                     <?php
-                                        $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
-                                        $result = file_get_contents($path);
-                                        $result = json_decode($result, true);
-                                        foreach($result['results'] as $row){
-                                            echo "<option value='" . $row['venue_id'] . "'>Name: " . $row['venue_name'] . " - Capacity: " . $row['venue_capacity'] . "</option>";
-                                        }
+                                    $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
+                                    $result = file_get_contents($path);
+                                    $result = json_decode($result, true);
+                                    foreach($result['results'] as $row){
+                                        echo "<option value='" . $row['venue_id'] . "'>Name: " . $row['venue_name'] . " - Capacity: " . $row['venue_capacity'] . "</option>";
+                                    }
                                     ?>
                                 </select>
                             </div>
@@ -181,52 +178,52 @@
                             <label class="col-md-3 control-label" for="slotID">Slot ID</label>
                             <div class="col-md-9">
                                 <input id="edit_slot_id" name="edit_slot_id" type="text" placeholder="#######"
-                                      disabled="true" class="form-control input-md" required="true">
+                                       disabled="true" class="form-control input-md" required="true">
                             </div>
                         </div>
-						<!-- Text input-->
-						<div class="form-group">
-							<label class="col-md-3 control-label" for="edit_slot_venue">Slot Venue</label>
-							<div class="col-md-9">
-								<select id="edit_slot_venue" name="edit_slot_venue" class="form-control" style="width: 100%;">
-									<?php
-									$path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
-									$result = file_get_contents($path);
-									$result = json_decode($result, true);
-									foreach($result['results'] as $row){
-										echo "<option value='" . $row['venue_id'] . "'>Name: " . $row['venue_name'] . " - Capacity: " . $row['venue_capacity'] . "</option>";
-									}
-									?>
-								</select>
-							</div>
-						</div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="edit_slot_venue">Slot Venue</label>
+                            <div class="col-md-9">
+                                <select id="edit_slot_venue" name="edit_slot_venue" class="form-control" style="width: 100%;">
+                                    <?php
+                                    $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
+                                    $result = file_get_contents($path);
+                                    $result = json_decode($result, true);
+                                    foreach($result['results'] as $row){
+                                        echo "<option value='" . $row['venue_id'] . "'>Name: " . $row['venue_name'] . " - Capacity: " . $row['venue_capacity'] . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
 
-						<!-- Text input-->
-						<div class="form-group">
-							<label class="col-md-3 control-label" for="edit_slot_date">Slot Date</label>
-							<div class="col-md-9">
-								<input id="edit_slot_date" name="edit_slot_date" type="date" placeholder=""
-									   class="form-control input-md" required="true">
-							</div>
-						</div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="edit_slot_date">Slot Date</label>
+                            <div class="col-md-9">
+                                <input id="edit_slot_date" name="edit_slot_date" type="date" placeholder=""
+                                       class="form-control input-md" required="true">
+                            </div>
+                        </div>
 
-						<!-- Text input-->
-						<div class="form-group">
-							<label class="col-md-3 control-label" for="edit_slot_start_time">Slot Start Time</label>
-							<div class="col-md-9">
-								<input id="edit_slot_start_time" name="edit_slot_start_time" type="time" placeholder=""
-									   class="form-control input-md" required="true">
-							</div>
-						</div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="edit_slot_start_time">Slot Start Time</label>
+                            <div class="col-md-9">
+                                <input id="edit_slot_start_time" name="edit_slot_start_time" type="time" placeholder=""
+                                       class="form-control input-md" required="true">
+                            </div>
+                        </div>
 
-						<!-- Text input-->
-						<div class="form-group">
-							<label class="col-md-3 control-label" for="edit_slot_end_time">Slot End Time</label>
-							<div class="col-md-9">
-								<input id="edit_slot_end_time" name="edit_slot_end_time" type="time" placeholder=""
-									   class="form-control input-md" required="true">
-							</div>
-						</div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="edit_slot_end_time">Slot End Time</label>
+                            <div class="col-md-9">
+                                <input id="edit_slot_end_time" name="edit_slot_end_time" type="time" placeholder=""
+                                       class="form-control input-md" required="true">
+                            </div>
+                        </div>
 
 
                         <!-- Button -->
