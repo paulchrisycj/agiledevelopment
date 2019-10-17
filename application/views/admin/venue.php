@@ -261,7 +261,7 @@
             e.preventDefault();
             $.ajax({
 
-                url: 'http://localhost/agiledevTemplate/includes/server/index.php',
+                url: '<?php echo base_url(); ?>/includes/server/index.php',
 
                 data: {
                     'action': "addVenue",
