@@ -18,6 +18,7 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 
 //Time and Date
 $mysqlDateandTime = date("Y-m-d H:i:s");
+$mysqlDate = date("Y-m-d");
 
 
 //Standard REQUEST
@@ -124,7 +125,7 @@ switch ($route) {
 
 
     case 'showAllBooking':
-        $sqlSearch = "SELECT * FROM booking LEFT JOIN slots ON booking.booking_slot_id=slots.slot_id LEFT JOIN venue ON slots.venue_id=venue.venue_id LEFT JOIN user ON booking.booking_user_id=user.user_id GROUP BY booking.booking_id";
+        $sqlSearch = "SELECT * FROM booking LEFT JOIN slots ON booking.booking_slot_id=slots.slot_id LEFT JOIN venue ON slots.venue_id=venue.venue_id LEFT JOIN user ON booking.booking_user_id=user.user_id WHERE booking_cancel IS NULL GROUP BY booking.booking_id";
         $rs = new JSONRecordSet();
         $retval = $rs->getRecordSet($sqlSearch, null,
             array(
@@ -145,7 +146,7 @@ switch ($route) {
         break;
 
     case 'showAllMyBookings':
-        $sqlSearch = "SELECT * FROM booking LEFT JOIN slots ON booking.booking_slot_id=slots.slot_id RIGHT JOIN venue ON slots.venue_id=venue.venue_id WHERE booking.booking_user_id=:booking_user_id GROUP BY booking.booking_id";
+        $sqlSearch = "SELECT * FROM booking LEFT JOIN slots ON booking.booking_slot_id=slots.slot_id RIGHT JOIN venue ON slots.venue_id=venue.venue_id WHERE booking.booking_user_id=:booking_user_id AND booking_cancel IS NULL GROUP BY booking.booking_id";
         $rs = new JSONRecordSet();
         $retval = $rs->getRecordSet($sqlSearch, null,
             array(
@@ -189,7 +190,7 @@ switch ($route) {
         break;
 
     case 'showAllUnreservedSlots':
-        $sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slots.slot_id NOT IN (SELECT slots.slot_id FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id RIGHT JOIN booking ON slots.slot_id = booking.booking_slot_id GROUP BY slots.slot_id) GROUP BY slots.slot_id";
+        $sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slots.slot_id NOT IN (SELECT slots.slot_id FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id RIGHT JOIN booking ON slots.slot_id = booking.booking_slot_id WHERE booking_cancel IS NULL GROUP BY slots.slot_id) GROUP BY slots.slot_id";
         $rs = new JSONRecordSet();
         $retval = $rs->getRecordSet($sqlSearch, null,
             array(
@@ -199,7 +200,7 @@ switch ($route) {
         break;
 
     case 'showAllUnreservedSimilarSlots':
-        $sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slots.slot_id NOT IN (SELECT slots.slot_id FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id RIGHT JOIN booking ON slots.slot_id = booking.booking_slot_id GROUP BY slots.slot_id) AND slot_date=:slot_date AND slot_start_time=:slot_start_time AND slot_end_time=:slot_end_time GROUP BY slots.slot_id";
+        $sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slots.slot_id NOT IN (SELECT slots.slot_id FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id RIGHT JOIN booking ON slots.slot_id = booking.booking_slot_id WHERE booking_cancel GROUP BY slots.slot_id) AND slot_date=:slot_date AND slot_start_time=:slot_start_time AND slot_end_time=:slot_end_time GROUP BY slots.slot_id";
         $rs = new JSONRecordSet();
         $retval = $rs->getRecordSet($sqlSearch, null,
             array(
@@ -275,6 +276,21 @@ switch ($route) {
             array(
                 ':booking_id'=>$booking_id,
                 ':booking_slot_id'=>$booking_slot_id
+            )
+        );
+        echo $retval;
+        break;
+
+    case 'cancelBooking':
+        $sqlInsert="UPDATE booking SET
+                        booking_cancel=:booking_cancel
+                        WHERE
+                        booking_id=:booking_id";
+        $rs = new JSONRecordSet();
+        $retval = $rs->setRecord($sqlInsert, null,
+            array(
+                ':booking_id'=>$booking_id,
+                ':booking_cancel'=>$mysqlDate
             )
         );
         echo $retval;
