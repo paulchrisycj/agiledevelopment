@@ -21,7 +21,7 @@
 
     <div class="row" style="margin-top:20px">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-            <form action="http://localhost/agiledevTemplate/includes/server/index.php" method="POST">
+            <form action="http://localhost/agiledevelopment/includes/server/index.php" method="POST">
                 <fieldset>
                     <input type="hidden" name="action" value="loginUser">
                     <h2>User Login</h2>
