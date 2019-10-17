@@ -45,7 +45,7 @@
                         //                        echo dirname($_SERVER['SERVER_NAME']);
                         //                        echo __DIR__ ;
 
-                        $path = "http://localhost/agiledevTemplate/includes/server/index.php?action=showAllUnreservedSlots";
+                        $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllUnreservedSlots";
                         //                echo "Path called : " . $path;
                         $response = file_get_contents($path);
                         $response = json_decode($response, true);
@@ -108,7 +108,7 @@
                             <div class="col-md-9">
                                 <select id="slot_venue" name="slot_venue" class="form-control" style="width: 100%;">
                                     <?php
-                                    $path = "http://localhost/agiledevTemplate/includes/server/index.php?action=showAllVenue";
+                                    $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
                                     $result = file_get_contents($path);
                                     $result = json_decode($result, true);
                                     foreach($result['results'] as $row){
@@ -392,7 +392,7 @@
             e.preventDefault();
             $.ajax({
 
-                url: 'http://localhost/agiledevTemplate/includes/server/index.php',
+                url: 'http://localhost/agiledevelopment/includes/server/index.php',
 
                 data: {
                     'action': "addSlot",
@@ -419,7 +419,7 @@
             var r = confirm("Are you sure you want to book this slot?");
             if(r == true){
                 $.ajax({
-                    url: 'http://localhost/agiledevTemplate/includes/server/index.php',
+                    url: 'http://localhost/agiledevelopment/includes/server/index.php',
 
                     data: {
                         'action': "addBooking",

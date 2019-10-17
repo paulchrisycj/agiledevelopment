@@ -124,10 +124,21 @@ switch ($route) {
 
 
     case 'showAllBooking':
-        $sqlSearch = "SELECT * FROM booking LEFT JOIN slots ON booking.booking_slot_id=slots.slot_id RIGHT JOIN venue ON slots.venue_id=venue.venue_id GROUP BY booking.booking_id";
+        $sqlSearch = "SELECT * FROM booking LEFT JOIN slots ON booking.booking_slot_id=slots.slot_id LEFT JOIN venue ON slots.venue_id=venue.venue_id LEFT JOIN user ON booking.booking_user_id=user.user_id GROUP BY booking.booking_id";
         $rs = new JSONRecordSet();
         $retval = $rs->getRecordSet($sqlSearch, null,
             array(
+            )
+        );
+        echo $retval;
+        break;
+
+    case 'showOneBookingByID':
+        $sqlSearch = "SELECT * FROM booking LEFT JOIN slots ON booking.booking_slot_id=slots.slot_id LEFT JOIN venue ON slots.venue_id=venue.venue_id LEFT JOIN user ON booking.booking_user_id=user.user_id WHERE booking_id=:booking_id GROUP BY booking.booking_id";
+        $rs = new JSONRecordSet();
+        $retval = $rs->getRecordSet($sqlSearch, null,
+            array(
+                ':booking_id'=>$booking_id
             )
         );
         echo $retval;
@@ -154,6 +165,19 @@ switch ($route) {
         echo $retval;
         break;
 
+    case 'showAllSimilarSlots':
+        $sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slot_date=:slot_date AND slot_start_time=:slot_start_time AND slot_end_time=:slot_end_time GROUP BY slots.slot_id";
+        $rs = new JSONRecordSet();
+        $retval = $rs->getRecordSet($sqlSearch, null,
+            array(
+                ':slot_date'=>$slot_date,
+                ':slot_start_time'=>$slot_start_time,
+                ':slot_end_time'=>$slot_end_time
+            )
+        );
+        echo $retval;
+        break;
+
     case 'showAllReserved':
         $sqlSearch = "SELECT * FROM booking LEFT JOIN slots ON booking_slot_id=slots.slot_id INNER JOIN venue ON slots.venue_id=venue.venue_id LEFT JOIN `user` ON booking.booking_user_id=`user`.user_id WHERE booking_cancel IS NULL GROUP BY booking_id";
         $rs = new JSONRecordSet();
@@ -169,6 +193,19 @@ switch ($route) {
         $rs = new JSONRecordSet();
         $retval = $rs->getRecordSet($sqlSearch, null,
             array(
+            )
+        );
+        echo $retval;
+        break;
+
+    case 'showAllUnreservedSimilarSlots':
+        $sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slots.slot_id NOT IN (SELECT slots.slot_id FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id RIGHT JOIN booking ON slots.slot_id = booking.booking_slot_id GROUP BY slots.slot_id) AND slot_date=:slot_date AND slot_start_time=:slot_start_time AND slot_end_time=:slot_end_time GROUP BY slots.slot_id";
+        $rs = new JSONRecordSet();
+        $retval = $rs->getRecordSet($sqlSearch, null,
+            array(
+                ':slot_date'=>$slot_date,
+                ':slot_start_time'=>$slot_start_time,
+                ':slot_end_time'=>$slot_end_time
             )
         );
         echo $retval;
@@ -196,7 +233,7 @@ switch ($route) {
         break;
 
 	case 'showOneSlotByID':
-		$sqlSearch = "SELECT * FROM slots WHERE slot_id=:slot_id";
+		$sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slot_id=:slot_id";
 		$rs = new JSONRecordSet();
 		$retval = $rs->getRecordSet($sqlSearch, null,
 			array(
@@ -222,6 +259,21 @@ switch ($route) {
         $retval = $rs->setRecord($sqlInsert, null,
             array(
                 ':booking_user_id'=>$booking_user_id,
+                ':booking_slot_id'=>$booking_slot_id
+            )
+        );
+        echo $retval;
+        break;
+
+    case 'updateBookingVenue':
+        $sqlInsert="UPDATE booking SET
+                        booking_slot_id=:booking_slot_id
+                        WHERE
+                        booking_id=:booking_id";
+        $rs = new JSONRecordSet();
+        $retval = $rs->setRecord($sqlInsert, null,
+            array(
+                ':booking_id'=>$booking_id,
                 ':booking_slot_id'=>$booking_slot_id
             )
         );

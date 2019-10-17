@@ -44,7 +44,7 @@
                         //                        echo dirname($_SERVER['SERVER_NAME']);
                         //                        echo __DIR__ ;
 
-                        $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllSlots";
+                        $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllUnreservedSlots";
                         //                echo "Path called : " . $path;
                         $response = file_get_contents($path);
                         $response = json_decode($response, true);
