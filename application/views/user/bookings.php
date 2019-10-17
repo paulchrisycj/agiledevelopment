@@ -60,8 +60,8 @@
                             echo "<td>" . $row['slot_date'] . "</td>";
                             echo "<td>" . $row['slot_start_time'] . "</td>";
                             echo "<td>" . $row['slot_end_time'] . "</td>";
-							echo "<td width='150'><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editBooking' value='" . $row['booking_id'] . "' id='" . $row['booking_id'] . "'</button>Edit";
- 							echo "<button class='btn btn-primary reserveButton' data-toggle='modal' data-target='' value='" . $row['booking_id'] . "' id='" . $row['booking_id'] . "'</button>Cancel</td>";
+							echo "<td width='150'><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editBooking' value='" . $row['booking_id'] . "' id='" . $row['booking_id'] . "'>Edit</button>";
+ 							echo "<button class='btn btn-primary cancelReservation' data-toggle='modal' data-target='' value='" . $row['booking_id'] . "' id='" . $row['booking_id'] . "'>Cancel</button></td>";
 //                            echo "<td><button class='reserve btn btn-primary' id='" . $row['slot_id'] . "' value='" . $row['slot_id'] . "'>Reserve</button></td>";
 //                                echo "<td style='font-size: 12px'>" . substr($row['slot_updated_at'], 0, 10) . "</td>";
 //                                echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editSlot' value='" . $row['slot_entry_id'] . "' id='" . $row['slot_entry_id'] . "'>Edit</button></td>";
@@ -335,17 +335,16 @@
                 type: 'POST'
             })
         });
-        $('.reserveButton').click(function(e){
+        $('.cancelReservation').click(function(e){
             e.preventDefault();
             var r = confirm("Are you sure you want to cancel this slot?");
             if(r == true){
                 $.ajax({
-                    url: 'http://localhost/agiledevelopment/includes/server/index.php',
+                    url: '<?php echo base_url(); ?>/includes/server/index.php',
 
                     data: {
-                        'action': "addBooking",
-                        'booking_user_id': '<?php echo $_SESSION['user_id'] ?>',
-                        'booking_slot_id': $(this).val()
+                        'action': "cancelBooking",
+                        'booking_id': $(this).val()
                     },
 
                     error: function (xhr, status, error) {
