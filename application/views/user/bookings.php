@@ -60,8 +60,8 @@
                             echo "<td>" . $row['slot_date'] . "</td>";
                             echo "<td>" . $row['slot_start_time'] . "</td>";
                             echo "<td>" . $row['slot_end_time'] . "</td>";
-							echo "<td width='150'><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editBooking' value='" . $row['venue_id'] . "' id='" . $row['venue_id'] . "'</button>Edit";
- 							echo "<button class='btn btn-primary reserveButton' data-toggle='modal' data-target='' value='" . $row['venue_id'] . "' id='" . $row['venue_id'] . "'</button>Cancel</td>";
+							echo "<td width='150'><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editBooking' value='" . $row['booking_id'] . "' id='" . $row['booking_id'] . "'</button>Edit";
+ 							echo "<button class='btn btn-primary reserveButton' data-toggle='modal' data-target='' value='" . $row['booking_id'] . "' id='" . $row['booking_id'] . "'</button>Cancel</td>";
 //                            echo "<td><button class='reserve btn btn-primary' id='" . $row['slot_id'] . "' value='" . $row['slot_id'] . "'>Reserve</button></td>";
 //                                echo "<td style='font-size: 12px'>" . substr($row['slot_updated_at'], 0, 10) . "</td>";
 //                                echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editSlot' value='" . $row['slot_entry_id'] . "' id='" . $row['slot_entry_id'] . "'>Edit</button></td>";
@@ -113,7 +113,7 @@
                             <div class="col-md-9">
                                 <select id="slot_venue" name="slot_venue" class="form-control" style="width: 100%;">
                                     <?php
-                                    $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
+                                    $path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllBooking";
                                     $result = file_get_contents($path);
                                     $result = json_decode($result, true);
                                     foreach($result['results'] as $row){
@@ -186,6 +186,14 @@
 					<fieldset>
 						<!-- Text input-->
 						<div class="form-group">
+							<label class="col-md-3 control-label" for="edit_booking_id">Booking ID</label>
+							<div class="col-md-9">
+								<input id="edit_booking_id" name="edit_booking_id" type="text" placeholder="#######"
+									   disabled="true" class="form-control input-md" required="true">
+							</div>
+						</div>
+						<!-- Text input-->
+						<div class="form-group">
 							<label class="col-md-3 control-label" for="slotID">Slot ID</label>
 							<div class="col-md-9">
 								<input id="edit_slot_id" name="edit_slot_id" type="text" placeholder="#######"
@@ -198,12 +206,12 @@
 							<div class="col-md-9">
 								<select id="edit_slot_venue" name="edit_slot_venue" class="form-control" style="width: 100%;">
 									<?php
-									$path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
-									$result = file_get_contents($path);
-									$result = json_decode($result, true);
-									foreach($result['results'] as $row){
-										echo "<option value='" . $row['venue_id'] . "'>Name: " . $row['venue_name'] . " - Capacity: " . $row['venue_capacity'] . "</option>";
-									}
+									//$path = "http://localhost/agiledevelopment/includes/server/index.php?action=showAllVenue";
+									//$result = file_get_contents($path);
+									//$result = json_decode($result, true);
+									//foreach($result['results'] as $row){
+									//	echo "<option value='" . $row['venue_id'] . "'>Name: " . $row['venue_name'] . " - Capacity: " . $row['venue_capacity'] . "</option>";
+									//}
 									?>
 								</select>
 							</div>
@@ -256,6 +264,7 @@
 <button id="example"></button>
 
 <script>
+    var optionString = "";
 
     $(document).ready(function () {
         $('.editButton').click(function () {
@@ -264,8 +273,8 @@
                 url: "<?php echo base_url(); ?>/includes/server/index.php",
 
                 data: {
-                    'action': 'showOneSlotByID',
-                    'slot_id': $(this).val()
+                    'action': 'showOneBookingByID',
+                    'booking_id': $(this).val()
                 },
 
                 error: function(xhr, status, error){
@@ -273,16 +282,59 @@
                 },
 
                 success: function(data){
+                    $('#edit_booking_id').val(data['results'][0]['booking_id']);
                     $('#edit_slot_id').val(data['results'][0]['slot_id']);
                     $('#edit_slot_venue').val(data['results'][0]['venue_id']).trigger('change.select2');
                     $('#edit_slot_date').val(data['results'][0]['slot_date']);
                     $('#edit_slot_start_time').val(data['results'][0]['slot_start_time']);
                     $('#edit_slot_end_time').val(data['results'][0]['slot_end_time']);
+                    optionString = "<option value='" + data['results'][0]['venue_id'] + "'>Name: " + data['results'][0]['venue_name'] + " - Capacity: " + data['results'][0]['venue_capacity'] + "</option>";
+                    $.ajax({
+                        url: "<?php echo base_url(); ?>/includes/server/index.php",
+                        data: {
+                            'action': 'showAllUnreservedSimilarSlots',
+                            'slot_date': data['results'][0]['slot_date'],
+                            'slot_start_time': data['results'][0]['slot_start_time'],
+                            'slot_end_time': data['results'][0]['slot_end_time']
+                        },
+                        error: function(xhr, status, error){
+                            alert(xhr.responseText);
+                        },
+                        success: function(data){
+                            data['results'].forEach(amendOptionString);
+                            console.log(optionString);
+                            $('#edit_slot_venue').html(optionString);
+                        },
+                        type: 'POST'
+                    })
                     console.log(data);
                 },
                 type: 'POST'
             })
         });//End of document ready.
+        function amendOptionString(item, index){
+            console.log(item);
+            optionString = optionString + "<option value='" + item['slot_id'] + "'>Name: " + item['venue_name'] + " - Capacity: " + item['venue_capacity'] + "</option>"
+        }
+        $('#edit_submit').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '<?php echo base_url() ?>/includes/server/index.php',
+                data: {
+                    'action': "updateBookingVenue",
+                    'booking_id': $('#edit_booking_id').val(),
+                    'booking_slot_id': $('#edit_slot_venue').val()
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                },
+                success: function (data) {
+                    alert("Successfully updated!");
+                    console.log(data);
+                },
+                type: 'POST'
+            })
+        });
         $('.reserveButton').click(function(e){
             e.preventDefault();
             var r = confirm("Are you sure you want to cancel this slot?");
@@ -398,13 +450,13 @@
     $(document).ready(function () {
         $('#slot').DataTable({
             scrollX: true,
-            order: [[10, "asc"]],
-            columnDefs: [
-                {
-                    "targets": [0],
-                    "visible": true
-                }
-            ],
+            //order: [[10, "asc"]],
+            //columnDefs: [
+            //    {
+            //        "targets": [0],
+            //        "visible": true
+            //    }
+            //],
             fixedColumns: {
                 leftColumns: 1
             },
