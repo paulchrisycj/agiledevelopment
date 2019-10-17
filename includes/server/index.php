@@ -200,7 +200,7 @@ switch ($route) {
         break;
 
     case 'showAllUnreservedSimilarSlots':
-        $sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slots.slot_id NOT IN (SELECT slots.slot_id FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id RIGHT JOIN booking ON slots.slot_id = booking.booking_slot_id WHERE booking_cancel GROUP BY slots.slot_id) AND slot_date=:slot_date AND slot_start_time=:slot_start_time AND slot_end_time=:slot_end_time GROUP BY slots.slot_id";
+        $sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slots.slot_id NOT IN (SELECT slots.slot_id FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id RIGHT JOIN booking ON slots.slot_id = booking.booking_slot_id WHERE booking_cancel IS NULL GROUP BY slots.slot_id) AND slot_date=:slot_date AND slot_start_time=:slot_start_time AND slot_end_time=:slot_end_time GROUP BY slots.slot_id";
         $rs = new JSONRecordSet();
         $retval = $rs->getRecordSet($sqlSearch, null,
             array(
