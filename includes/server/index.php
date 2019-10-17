@@ -154,6 +154,16 @@ switch ($route) {
         echo $retval;
         break;
 
+    case 'showAllReserved':
+        $sqlSearch = "SELECT * FROM booking LEFT JOIN slots ON booking_slot_id=slots.slot_id INNER JOIN venue ON slots.venue_id=venue.venue_id LEFT JOIN `user` ON booking.booking_user_id=`user`.user_id WHERE booking_cancel IS NULL GROUP BY booking_id";
+        $rs = new JSONRecordSet();
+        $retval = $rs->getRecordSet($sqlSearch, null,
+            array(
+            )
+        );
+        echo $retval;
+        break;
+
     case 'showAllUnreservedSlots':
         $sqlSearch = "SELECT * FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id WHERE slots.slot_id NOT IN (SELECT slots.slot_id FROM slots LEFT JOIN venue ON slots.venue_id=venue.venue_id RIGHT JOIN booking ON slots.slot_id = booking.booking_slot_id GROUP BY slots.slot_id) GROUP BY slots.slot_id";
         $rs = new JSONRecordSet();
