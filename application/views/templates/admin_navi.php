@@ -25,6 +25,7 @@
                                     <!--                                    <li><a href="dashboard.php">Dashboard</a></li>-->
                                     <li><a href="slots">View Slots</a></li>
                                     <li><a href="venue">View Venues</a></li>
+                                    <li><a href="reservations">View Reservations</a></li>
                                 </ul>
                             </li>
                         </ul>
