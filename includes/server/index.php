@@ -407,7 +407,8 @@ switch ($route) {
 		header("Location: ".$path);
 		break;
 
-
+    case 'unitTestingConnection':
+        echo 'Connection OK!';
 		
 	case 'session':
 		var_dump($_SESSION);
