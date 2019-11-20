@@ -485,7 +485,116 @@
 
 
 </script>
+<?php
+$db = mysqli_connect('localhost', 'root', '', 'finddoctor');
+session_start();
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+//Load Composer's autoloader
+require 'PHPMailer/phpmailer/vendor/autoload.php';
+// Import PHPMailer classes into the global namespace
+// These must be at the top of your script, not inside a function
 
+$sql = "SELECT email FROM registration WHERE Uemail <> 'finddoctor@gmail.com'";
+$result = mysqli_query($db, $sql);
+$store = array();
+
+if($result -> num_rows > 0){
+
+	while($row = mysqli_fetch_array($result)){
+		$store[] = $row['email'];
+	}
+} else{
+	throw new Exception ('No emails found!');
+}
+
+$mail = new PHPMailer(true);// Passing `true` enables exceptions
+try {
+	$subject = $_SESSION['subject'];
+	$content = $_SESSION['message'];
+	//$mail->SMTPDebug = 1;                                 // Enable verbose debug output
+	$mail->IsSMTP();                                      // Set mailer to use SMTP
+	$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+	$mail->SMTPAuth = true;                               // Enable SMTP authentication
+	$mail->Username = 's2xiaokiller@gmail.com';                 // SMTP username
+	$mail->Password = 'itwbwzcrofoheftj';                           // SMTP password
+	$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+	$mail->Port = 587;                                    // TCP port to connect to
+	$mail->SMTPOptions = array(
+		'ssl' => array(
+			'verify_peer' => false,
+			'verify_peer_name' => false,
+			'allow_self_signed' => true
+		)
+	);
+	$mail->setFrom('s2xiaokiller@gmail.com', 'Find Doctor System');
+
+	foreach ($store as $key => $totalEmail) {
+		$mail->addAddress($totalEmail);
+		$mail->addReplyTo('s2xiaokiller@gmail.com', 'Information');
+	}
+
+	$mail->isHTML(true);       // Set email format to HTML
+	$mail->Subject = "$subject";
+	$mail->Body = "$content";
+	$mail->Send();
+	echo 'Message has been sent';
+	//header( "refresh:1;url=.php" );
+} catch (Exception $e) {
+	echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+}
+?>
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require 'PHPMailer/phpmailer/vendor/autoload.php';
+$sqlSearch = "SELECT * FROM appointment LEFT JOIN registration ON appointment.user_id = registration.id LEFT JOIN docreg ON appointment.doc_id = docreg.id WHERE appointment.id="."$_GET[deleted_id] ";
+$sqlDelete = "DELETE FROM appointment WHERE id=" . "$_GET[deleted_id]";
+$result=mysqli_query($db, $sqlSearch);
+
+
+
+if($result ->num_rows > 0){
+while($row = mysqli_fetch_array($result)) {
+//echo "<td style='text-align: center'>" . "$row[email]" . " </td>";
+$mail = new PHPMailer(true);// Passing `true` enables exceptions
+echo $row["Dname"];
+try {
+$email = $_SESSION['replyUser'];
+$content = "Sorry Sir/Madam $row[name], Dr. $row[Dname] has deleted the appointment on date $row[date_appointment], $row[start_time].";
+$username = $_SESSION['replyUsername'];
+$delete_id = $_SESSION['deleteId'];
+//$mail->SMTPDebug = 1;                                 // Enable verbose debug output
+$mail->IsSMTP();                                      // Set mailer to use SMTP
+$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+$mail->SMTPAuth = true;                               // Enable SMTP authentication
+$mail->Username = 's2xiaokiller@gmail.com';                 // SMTP username
+$mail->Password = 'itwbwzcrofoheftj';                           // SMTP password
+$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+$mail->Port = 587;                                    // TCP port to connect to
+$mail->SMTPOptions = array(
+'ssl' => array(
+'verify_peer' => false,
+'verify_peer_name' => false,
+'allow_self_signed' => true
+)
+);
+$mail->setFrom('s2xiaokiller@gmail.com', 'Find Doctor System');
+$mail->addAddress("$row[Uemail]");     // Add a recipient
+$mail->addReplyTo('s2xiaokiller@gmail.com', 'Information');
+$mail->isHTML(true);       // Set email format to HTML
+$mail->Subject = "Appointment has been deleted";
+$mail->Body = "$content";
+$mail->Send();
+
+$sql = "DELETE FROM appointment WHERE id="."$_GET[deleted_id]";
+mysqli_query($db, $sql);
+} catch (Exception $e) {
+echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+}
+}
+
+}
 
 <script>
 
