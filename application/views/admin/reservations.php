@@ -54,8 +54,8 @@
                             echo "<td>" . $row['slot_start_time'] . "</td>";
                             echo "<td>" . $row['slot_end_time'] . "</td>";
                             echo "<td>" . $row['user_name'] . "</td>";
-                            echo "<td><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editSlot' value='" . $row['booking_id'] . "' id='" . $row['booking_id'] . "'</button>Edit</td>";
-//                                echo "<td style='font-size: 12px'>" . substr($row['slot_updated_at'], 0, 10) . "</td>";
+                            echo "<td width='150'><button class='btn btn-primary editButton' data-toggle='modal' data-target='#editReservation' value='" . $row['booking_id'] . "' id='" . $row['booking_id'] . "'>Edit</button>";
+                            echo "<button class='btn btn-primary cancelReservation' data-toggle='modal' data-target='' value='" . $row['venue_id'] . "' id='" . $row['booking_id'] . "'>Cancel</button></td>";//                                echo "<td style='font-size: 12px'>" . substr($row['slot_updated_at'], 0, 10) . "</td>";
 //                                echo "<td><button class='editButton buttonLink' data-toggle='modal' data-target='#editSlot' value='" . $row['slot_entry_id'] . "' id='" . $row['slot_entry_id'] . "'>Edit</button></td>";
                             echo "</tr>";
                         }
@@ -158,7 +158,7 @@
 <!-- Modal -->
 
 <!-- Edit Slot Modal -->
-<div class="modal fade" id="editSlot" role="form">
+<div class="modal fade" id="editReservation" role="form">
     <div class="modal-dialog">
         <!-- Modal Content -->
         <div class="modal-content">
@@ -275,11 +275,10 @@
                 success: function(data){
                     $('#edit_booking_id').val(data['results'][0]['booking_id']);
                     $('#edit_slot_id').val(data['results'][0]['slot_id']);
-                    $('#edit_slot_venue').val(data['results'][0]['venue_id']).trigger('change.select2');
                     $('#edit_slot_date').val(data['results'][0]['slot_date']);
                     $('#edit_slot_start_time').val(data['results'][0]['slot_start_time']);
                     $('#edit_slot_end_time').val(data['results'][0]['slot_end_time']);
-                    optionString = "<option value='" + data['results'][0]['venue_id'] + "'>Name: " + data['results'][0]['venue_name'] + " - Capacity: " + data['results'][0]['venue_capacity'] + "</option>";
+                    optionString = "<option value='" + data['results'][0]['slot_id'] + "'>Name: " + data['results'][0]['venue_name'] + " - Capacity: " + data['results'][0]['venue_capacity'] + "</option>";
                     $.ajax({
                         url: "<?php echo base_url(); ?>/includes/server/index.php",
 
@@ -303,6 +302,7 @@
                         type: 'POST'
                     })
                     console.log(data);
+                    $('#edit_slot_venue').val(data['results'][0]['slot_id']).trigger('change.select2');
                 },
 
                 type: 'POST'
@@ -337,6 +337,32 @@
 
                 type: 'POST'
             })
+        });
+
+        $('.cancelReservation').click(function(e){
+            e.preventDefault();
+            var r = confirm("Are you sure you want to cancel this slot?");
+            if(r == true){
+                $.ajax({
+                    url: '<?php echo base_url(); ?>/includes/server/index.php',
+
+                    data: {
+                        'action': "cancelBooking",
+                        'booking_id': $(this).val()
+                    },
+
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    },
+
+                    success: function (data) {
+                        alert("Successfully updated!");
+                        console.log(data);
+                    },
+
+                    type: 'POST'
+                })
+            }
         });
         $('#add_submit').click(function (e) {
             e.preventDefault();
